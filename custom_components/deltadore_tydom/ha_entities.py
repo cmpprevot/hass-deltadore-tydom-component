@@ -3588,7 +3588,9 @@ class HaAlarm(AlarmControlPanelEntity, HAEntity):
         self._attr_unique_id = f"{self._device.device_id}_alarm"
         self._attr_name = None  # primary entity inherits device name
         self._attr_code_format = CodeFormat.NUMBER
-        self._attr_code_arm_required = True
+        self._attr_code_arm_required = not bool(
+            getattr(self._device._tydom_client, "_alarm_pin", None)
+        )
         self._attr_changed_by = None
         self._changed_by_type: str | None = None
         self._registered_sensors = []
